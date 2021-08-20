@@ -22,6 +22,14 @@ class _CreateServiceState extends State<CreateService> {
   File? file;
   double? lat, lng;
   final formKey = GlobalKey<FormState>();
+  TextEditingController nameController = TextEditingController();
+  TextEditingController addressController = TextEditingController();
+  TextEditingController phoneController = TextEditingController();
+  TextEditingController userController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+
+  String avatar = '';
+
   @override
   void initState() {
     super.initState();
@@ -69,7 +77,8 @@ class _CreateServiceState extends State<CreateService> {
       lat = position!.latitude;
       lng = position.longitude;
       print('lat =$lat,lng=$lng');
-    });
+    },
+    );
   }
 
   Future<Position?> findPosition() async {
@@ -88,6 +97,7 @@ class _CreateServiceState extends State<CreateService> {
           margin: EdgeInsets.only(top: 16),
           width: size * 0.6,
           child: TextFormField(
+            controller: nameController,
             validator: (value) {
               if (value!.isEmpty) {
                 return 'กรุณากรอก Name ด้วยค่ะ';
@@ -121,6 +131,7 @@ class _CreateServiceState extends State<CreateService> {
           margin: EdgeInsets.only(top: 16),
           width: size * 0.6,
           child: TextFormField(
+            controller: addressController,
             validator: (value) {
               if (value!.isEmpty) {
                 return 'กรุณากรอก ที่อยู่ ด้วยค่ะ';
@@ -158,6 +169,7 @@ class _CreateServiceState extends State<CreateService> {
           margin: EdgeInsets.only(top: 16),
           width: size * 0.6,
           child: TextFormField(
+            controller: phoneController,
             keyboardType: TextInputType.phone,
             validator: (value) {
               if (value!.isEmpty) {
@@ -192,6 +204,7 @@ class _CreateServiceState extends State<CreateService> {
           margin: EdgeInsets.only(top: 16),
           width: size * 0.6,
           child: TextFormField(
+            controller: passwordController,
             validator: (value) {
               if (value!.isEmpty) {
                 return 'กรุณากรอก Password ด้วยค่ะ';
@@ -225,6 +238,7 @@ class _CreateServiceState extends State<CreateService> {
           margin: EdgeInsets.only(top: 16),
           width: size * 0.6,
           child: TextFormField(
+            controller: userController,
             validator: (value) {
               if (value!.isEmpty) {
                 return 'กรุณากรอก User ด้วยค่ะ';
@@ -305,12 +319,27 @@ class _CreateServiceState extends State<CreateService> {
                 'กรุณาเลือกชนืดของ User');
           } else {
             print('Process Insert to Database');
+            uploadPictureAndInsertData();
           }
         }
       },
       icon: Icon(Icons.cloud_upload),
     );
   }
+
+  Future<Null> uploadPictureAndInsertData() async {
+    String name = nameController.text;
+    String address = addressController.text;
+    String phone = phoneController.text;
+    String user = userController.text;
+    String password = passwordController.text;
+    print(
+        '## name = $name,address =$address,phone = $phone,user =$user,password =$password');
+  }
+
+
+
+
 
   Widget buidMap() => Container(
         width: double.infinity,
@@ -322,7 +351,7 @@ class _CreateServiceState extends State<CreateService> {
                   target: LatLng(lat!, lng!),
                   zoom: 16,
                 ),
-                onMapCreated: (controller){},
+                onMapCreated: (controller) {},
               ),
       );
 

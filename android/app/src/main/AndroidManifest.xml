@@ -6,7 +6,7 @@
         android:label="taradsod1"
         android:icon="@mipmap/ic_launcher">
         <meta-data android:name="com.google.android.geo.API_KEY"
-               android:value="YOUR KEY HERE"/>
+               android:value="AIzaSyA7-GMQdLVGTPPYM6ApWclI60zxtUEdQMg"/>
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"

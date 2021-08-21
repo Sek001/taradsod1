@@ -73,11 +73,12 @@ class _CreateServiceState extends State<CreateService> {
   Future<Null> findLatLng() async {
     print('findLatLan ==>Work');
     Position? position = await findPosition();
-    setState(() {
-      lat = position!.latitude;
-      lng = position.longitude;
-      print('lat =$lat,lng=$lng');
-    },
+    setState(
+      () {
+        lat = position!.latitude;
+        lng = position.longitude;
+        print('lat =$lat,lng=$lng');
+      },
     );
   }
 
@@ -86,7 +87,9 @@ class _CreateServiceState extends State<CreateService> {
     try {
       position = await Geolocator.getCurrentPosition();
       return position;
-    } catch (e) {}
+    } catch (e) {
+      return null;
+    }
   }
 
   Row buildName(double size) {
@@ -337,9 +340,12 @@ class _CreateServiceState extends State<CreateService> {
         '## name = $name,address =$address,phone = $phone,user =$user,password =$password');
   }
 
-
-
-
+  Set<Marker> setMarker() => <Marker>[
+    Marker(markerId: MarkerId('id'),
+    position: LatLng(lat!, lng!),
+    infoWindow: InfoWindow(title: 'คุณอยู่ที่นี่',snippet: 'Lat = $lat,lng = $lng'),
+    ),
+  ].toSet();
 
   Widget buidMap() => Container(
         width: double.infinity,
@@ -349,9 +355,10 @@ class _CreateServiceState extends State<CreateService> {
             : GoogleMap(
                 initialCameraPosition: CameraPosition(
                   target: LatLng(lat!, lng!),
-                  zoom: 16,
+                  zoom: 18,
                 ),
                 onMapCreated: (controller) {},
+                markers: setMarker(),
               ),
       );
 
